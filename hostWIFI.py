@@ -36,7 +36,7 @@ def start():
     for i in range(0, 20):
             print('===', end='')
     print('\nPress 0 to return to the main menu.')
-    ifStart = input('Press any number to start new hosting... ')
+    ifStart = input('Press any other key to start new hosting... ')
     if ifStart == '0':
         return menu()
     else:
