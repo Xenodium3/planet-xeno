@@ -1,0 +1,31 @@
+#include <PID_v1.h>
+#define sensorPin 0
+#define actuatorPin 9
+
+double setpoint, input, output;
+
+// Define the PID gains
+double Kp = 1, Ki = 0.1, Kd = 0.05;
+
+// Create a PID object
+PID myPID(&input, &output, &setpoint, Kp, Ki, Kd, DIRECT);
+
+void setup() {
+  Serial.begin(9600);
+  setpoint = 25;  // Set the desired temperature
+  input = analogRead(sensorPin);  // Read the initial temperature from the sensor
+  myPID.SetMode(AUTOMATIC);  // Set the PID to automatic mode
+  myPID.SetSampleTime(100);  // Set the sample time to 100 milliseconds
+  pinMode(actuatorPin, OUTPUT);  // Set the actuator pin as an output
+}
+
+void loop() {
+  input = analogRead(sensorPin);  // Read the temperature from the sensor
+  myPID.Compute();  // Compute the PID output
+  analogWrite(actuatorPin, output);  // Write the PID output to the actuator
+  Serial.print("Temperature: ");
+  Serial.print(input);
+  Serial.print("\tPID Output: ");
+  Serial.println(output);
+  delay(100);  // Delay for 100 milliseconds
+}
